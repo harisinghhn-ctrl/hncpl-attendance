@@ -1,0 +1,11 @@
+const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();}
+const workers=[{id:"WRK001",name:"Worker One",designation:"Operator"},{id:"WRK002",name:"Worker Two",designation:"Helper"}];
+const state={};workers.forEach(w=>state[w.id]="P");
+document.getElementById("date").value=new Date().toISOString().slice(0,10);
+document.getElementById("today").textContent=new Date().toLocaleDateString("en-IN",{weekday:"long",day:"2-digit",month:"short",year:"numeric"});
+if(tg?.initDataUnsafe?.user){let u=tg.initDataUnsafe.user;document.getElementById("welcomeName").textContent="Hello, "+(u.first_name||"User");document.getElementById("avatar").textContent=(u.first_name||"U")[0].toUpperCase();}
+function render(){document.getElementById("rows").innerHTML=workers.map(w=>`<tr><td><b>${w.id}</b></td><td><b>${w.name}</b><br><small>${w.designation}</small></td><td><div class="statuses">${["P","A","HD","L","WO","H"].map(s=>`<button class="status ${state[w.id]===s?"selected":""}" onclick="setStatus('${w.id}','${s}')">${s}</button>`).join("")}</div></td></tr>`).join("");document.getElementById("workersList").innerHTML=workers.map(w=>`<div class="worker"><div><b>${w.name}</b><small>${w.id} · ${w.designation}</small></div><b>${state[w.id]}</b></div>`).join("");let v=Object.values(state);document.getElementById("present").textContent=v.filter(x=>x==="P").length;document.getElementById("absent").textContent=v.filter(x=>x==="A").length;document.getElementById("leave").textContent=v.filter(x=>x==="L").length;}
+function setStatus(id,s){state[id]=s;render();}
+function saveAttendance(){if(tg?.showPopup)tg.showPopup({title:"Attendance",message:"Demo attendance saved. Database connection comes next.",buttons:[{type:"ok"}]});else alert("Demo attendance saved.");}
+function showPage(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===id));scrollTo(0,0);}
+render();showPage("home");
