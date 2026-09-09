@@ -1,41 +1,340 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
 <title>HNCPL Attendance</title>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
+
 <div class="app">
-<header><div><b>HNCPL</b><small>Attendance Management</small></div><span id="avatar">A</span></header>
+
+<header>
+
+<div>
+<b>HNCPL</b>
+<small>Attendance Management</small>
+</div>
+
+<span id="avatar">A</span>
+
+</header>
+
+
 <main id="content">
+
+
+<!-- HOME -->
+
 <section class="page" id="home">
-<div class="welcome"><label>WELCOME</label><h1 id="welcomeName">Attendance Dashboard</h1><p id="today"></p></div>
-<div class="site"><div><small>SITE</small><h2>Factory</h2><p>Bokaro</p></div><strong>Active</strong></div>
+
+<div class="welcome">
+
+<label>WELCOME</label>
+
+<h1 id="welcomeName">
+Attendance Dashboard
+</h1>
+
+<p id="today"></p>
+
+</div>
+
+
+<div class="site">
+
+<div>
+
+<small>SITE</small>
+
+<h2>Factory</h2>
+
+<p>Bokaro</p>
+
+</div>
+
+<strong>Active</strong>
+
+</div>
+
+
 <h3>Today's Summary</h3>
+
+
 <div class="stats">
-<div><b id="present">0</b><small>Present</small></div><div><b id="absent">0</b><small>Absent</small></div>
-<div><b id="leave">0</b><small>Leave</small></div><div><b id="total">2</b><small>Total</small></div>
+
+<div>
+<b id="present">0</b>
+<small>Present</small>
 </div>
-<button class="primary" onclick="showPage('attendance')">Open Attendance</button>
+
+<div>
+<b id="absent">0</b>
+<small>Absent</small>
+</div>
+
+<div>
+<b id="leave">0</b>
+<small>Leave</small>
+</div>
+
+<div>
+<b id="total">0</b>
+<small>Total</small>
+</div>
+
+</div>
+
+
+<button
+class="primary"
+onclick="showPage('attendance')">
+
+Open Attendance
+
+</button>
+
 </section>
+
+
+
+<!-- ATTENDANCE -->
+
 <section class="page" id="attendance">
-<div class="head"><div><label>ATTENDANCE</label><h1>Daily Register</h1></div><input type="date" id="date"></div>
-<div class="tablebox"><table><thead><tr><th>Employee</th><th>Name</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
-<button class="primary" onclick="saveAttendance()">Save Attendance</button><p class="hint">Demo screen — database connection will be added next.</p>
-</section>
-<section class="page" id="workers"><label>SITE WORKERS</label><h1>Workers</h1><div id="workersList"></div></section>
-<section class="page" id="reports"><label>REPORTS</label><h1>Reports</h1><div class="card">Monthly Attendance <b>Coming next</b></div><div class="card">Excel Export <b>Coming next</b></div></section>
-</main>
-<nav>
-<button onclick="showPage('home')" data-page="home">⌂<small>Home</small></button>
-<button onclick="showPage('attendance')" data-page="attendance">▦<small>Attendance</small></button>
-<button onclick="showPage('workers')" data-page="workers">♙<small>Workers</small></button>
-<button onclick="showPage('reports')" data-page="reports">▤<small>Reports</small></button>
-</nav>
+
+<div class="head">
+
+<div>
+
+<label>ATTENDANCE</label>
+
+<h1>Daily Register</h1>
+
 </div>
+
+<input
+type="date"
+id="date">
+
+</div>
+
+
+<div class="tablebox">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Employee</th>
+
+<th>Name</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="rows"></tbody>
+
+</table>
+
+</div>
+
+
+<button
+class="primary"
+onclick="saveAttendance()">
+
+Save Attendance
+
+</button>
+
+
+<p class="hint">
+
+Select the attendance status for each worker and save.
+
+</p>
+
+</section>
+
+
+
+<!-- WORKERS -->
+
+<section class="page" id="workers">
+
+<label>SITE WORKERS</label>
+
+<h1>Workers</h1>
+
+<div id="workersList"></div>
+
+</section>
+
+
+
+<!-- REPORTS -->
+
+<section class="page" id="reports">
+
+<label>REPORTS</label>
+
+<h1>Monthly Attendance</h1>
+
+
+<div class="report-filter">
+
+<label>Select Month</label>
+
+<input
+type="month"
+id="reportMonth">
+
+
+<button
+class="primary"
+onclick="loadMonthlyReport()">
+
+View Report
+
+</button>
+
+</div>
+
+
+<div
+id="reportSummary"
+class="stats">
+
+</div>
+
+
+<div class="tablebox">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Employee</th>
+
+<th>Name</th>
+
+<th>P</th>
+
+<th>A</th>
+
+<th>HD</th>
+
+<th>L</th>
+
+<th>WO</th>
+
+<th>H</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="reportRows">
+
+<tr>
+
+<td colspan="8">
+
+Select month and click View Report
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+
+</main>
+
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav>
+
+<button
+onclick="showPage('home')"
+data-page="home">
+
+⌂
+
+<small>Home</small>
+
+</button>
+
+
+<button
+onclick="showPage('attendance')"
+data-page="attendance">
+
+▦
+
+<small>Attendance</small>
+
+</button>
+
+
+<button
+onclick="showPage('workers')"
+data-page="workers">
+
+♙
+
+<small>Workers</small>
+
+</button>
+
+
+<button
+onclick="showPage('reports')"
+data-page="reports">
+
+▤
+
+<small>Reports</small>
+
+</button>
+
+</nav>
+
+
+</div>
+
+
 <script src="app.js"></script>
+
 </body>
+
 </html>
