@@ -1,4 +1,4 @@
-const API_BASE = "https://alot-dallas-naturally-logged.trycloudflare.com";
+const API_BASE = https://obituaries-dana-tablets-admission.trycloudflare.com;
 
 const tg = window.Telegram?.WebApp;
 
